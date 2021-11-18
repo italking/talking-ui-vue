@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
+        <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js" />
+        <header>VUE 组件库</header>
+    </head>
+    <body>
+    </body>
+    <script type="model">
+        import {WindowPlugin} from "/src/window.js";
+        Vue.use(WindowPlugin)
+        var app = new Vue({
+             el: 'body'
+        }
+        app.openWindow({});
+});
+    </script>
+</html>
