@@ -1,18 +1,29 @@
 <html>
     <head>
-        <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
-        <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js" />
-        <header>VUE 组件库</header>
+        <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+        <script src="//unpkg.com/vue@latest/dist/vue.min.js"></script>
+        <title>VUE 组件库</title>
     </head>
     <body>
+        <div id="app">
+            <div id="ok"></div>
+        </div>
     </body>
-    <script type="model">
+    <script type="module">
         import {WindowPlugin} from "/src/window.js";
         Vue.use(WindowPlugin)
         var app = new Vue({
-             el: 'body'
-        }
-        app.openWindow({});
-});
+             el: '#app'
+        });
+
+        var content = {
+                        methods:{
+                            ok:function(){alert("ok")}
+                        },
+                        template:"<div>窗口</div>"
+                       }
+
+        app.$openWindow({title:"adsad",height:600, width: 700, com:content});
+        //app.$openWindow({title:"adsad",com:content});
     </script>
 </html>
