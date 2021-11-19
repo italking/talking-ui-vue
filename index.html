@@ -11,7 +11,11 @@
     </body>
     <script type="module">
         import {WindowPlugin} from "/src/window.js";
-        Vue.use(WindowPlugin)
+        import { AlertifyPlugin }   from "/src/alertify.js";
+        
+        Vue.use(WindowPlugin);
+        Vue.use(AlertifyPlugin);
+
         var app = new Vue({
              el: '#app'
         });
@@ -23,7 +27,12 @@
                         template:"<div>窗口</div>"
                        }
 
-        app.$openWindow({title:"adsad",height:600, width: 700, com:content});
+       // app.$openWindow({title:"adsad",height:600, width: 700, com:content});
         //app.$openWindow({title:"adsad",com:content});
+        app.$notify({message:"测试消息1",level:1});
+        app.$notify({message:"测试消息2",level:2});
+        app.$notify({message:"测试消息3",level:3});
+        app.$notify({message:"测试消息3",level:3,time:2000});
+        app.$notify({message:"测试消息4",level:3,closeable:false});
     </script>
 </html>
