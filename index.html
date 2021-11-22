@@ -10,9 +10,9 @@
         </div>
     </body>
     <script type="module">
-        import {WindowPlugin} from "/src/window.js";
-        import { AlertifyPlugin }   from "/src/alertify.js";
-        
+        import {WindowPlugin}     from "/src/window.js";
+        import {AlertifyPlugin}   from "/src/alertify.js";
+        import {LoadingPluin}     from "/src/loading.js"
         Vue.use(WindowPlugin);
         Vue.use(AlertifyPlugin);
 
@@ -34,5 +34,6 @@
         app.$notify({message:"测试消息3",level:3});
         app.$notify({message:"测试消息3",level:3,time:2000});
         app.$notify({message:"测试消息4",level:3,closeable:false});
+        app.$loading.start();
     </script>
 </html>
