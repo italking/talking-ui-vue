@@ -2,14 +2,14 @@ var Loading = {
     data:function(){
         return {
             visible: false,
-            width:window.innerWidth,
-            height:window.innerHeight
+            width:document.documentElement.scrollWidth,
+            height:document.documentElement.scrollHeight
         }
     },
     methods:{
         reset:function(){
-            this.$set(this,"width",window.innerWidth);
-            this.$set(this,"height",window.innerHeight);
+            this.$set(this,"width",document.documentElement.scrollWidth);
+            this.$set(this,"height",document.documentElement.scrollHeight);
         },
         show:function(){
             this.$set(this,"visible",true);

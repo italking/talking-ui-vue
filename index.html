@@ -28,8 +28,9 @@
                         template:"<div>窗口</div>"
                        }
 
-       // app.$openWindow({title:"adsad",height:600, width: 700, com:content});
-        //app.$openWindow({title:"adsad",com:content});
+       app.$openWindow({title:"adsad",height:600, width: 700, com:content , left:20,top:40 ,modal:true});
+       app.$openWindow({title:"adsad",com:content,modal:true});
+        /**
         app.$notify({message:"测试消息1",level:1});
         app.$notify({message:"测试消息2",level:2});
         app.$notify({message:"测试消息3",level:3});
@@ -40,5 +41,6 @@
         setTimeout(()=>{
             app.$loading.stop();
         }, 5000);
+        **/
     </script>
 </html>
