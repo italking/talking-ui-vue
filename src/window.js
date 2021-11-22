@@ -1,36 +1,57 @@
 var Content = {
     props:{
-        com:Object
+        com:Object,
+        //传递参数
+        winProps:Object
     },
     mounted:function(){
         this.$emit("created",this.$refs.content);
     },
     render: function (createElement)  {
         //应该判断是否为字符字符串
-        return createElement(this.com,{
+        var p = {
             ref:"content"
-        });
+        };
+        if(this.winProps){
+            p.props= this.winProps;
+        }
+        return createElement(this.com,p);
     }
 }
 
 
 var Window = {
+    data:function(){
+        return{
+            left:0,
+            DefaultWidth:500
+        }
+    },
     props:{
         win:Object
+    },
+    created:function(){
+      var width  = this.win.width?this.win.width:this.DefaultWidth;
+      //默认窗口居中
+      this.left = (document.body.clientWidth / 2 - width / 2) - (document.body.scrollWidth - document.body.clientWidth );
     },
     computed:{
         title:function(){
             return this.win.title?this.win.title:"";
         },
         size:function(){
-            var width  = this.win.width?this.win.width:500;
-            var height = this.win.height?this.win.height:300;
-            return {width:width,"max-width":width,height:height,"max-height":height};
+            var width  = this.win.width?this.win.width:this.DefaultWidth;
+            return {width:width,"max-width":width, left:this.left};
         },
+        /**
+         * 如果不设置高度，conten 中组件的高度为自适应
+         * @returns 
+         */
         cHeight:function(){
-            var     height = this.win.height?this.win.height:300;
-            height =  height - 60- 70;
-            return height;
+            if(this.win.height){
+                return this.win.height - 60 -70;
+            }
+            return "auto";
         }
     },
     methods:{
@@ -51,6 +72,7 @@ var Window = {
         //内容初始化完成
         created:function(content){
             this.content = content;
+            //console.log(this.win.props);
         }
     },
     components: {
@@ -66,7 +88,7 @@ var Window = {
                     </button>\
                 </div>\
                 <div class="modal-body" :style="{height:cHeight}" >\
-                   <content-com @created="created" :com="win.com"></content-com>\
+                   <content-com @created="created" :com="win.com" :winProps="win.props"></content-com>\
                 </div>\
                 <div class="modal-footer">\
                     <button @click="cancel" type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>\
@@ -107,13 +129,23 @@ var WindowContainer = {
         "window":Window
     },
     template:
-            '<div>\
+            '<div style="position:absolute;left:0px;top:0px">\
                 <template v-for="win in windows">\
                     <window @ok="ok(win)" @cancel="cancel(win)" :win="win"></window>\
                 <template>\
              </div>'
 }
-
+/**
+ * window 属性
+ * ----------------
+ *  title：标题
+ *  width：宽度
+ *  height: 高度
+ *  com：组件
+ *  props:传递参数
+ *  ok：内部组件可以实现此方法，或者使用回调
+ *  cancel：内部组件可以实现此方法，或者使用回调
+ */
 export var WindowPlugin = {
     install:function(Vue, options){
         var WindowContainerComp = Vue.extend(WindowContainer);
