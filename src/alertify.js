@@ -70,8 +70,9 @@ var AlertifyContainer = {
             },message.time);
          }
     },
+    //zindex loadding > message > model
     template:
-        '<div style="width:600px;z-index: 9999; position:fixed !important; right: 0px; top: 0px;">\
+        '<div style="width:600px;z-index: 5555; position:fixed !important; right: 0px; top: 0px;">\
             <template v-for="message in messages">\
                 <alertify @close="close(message)" :message="message"></alertify>\
             <template>\
