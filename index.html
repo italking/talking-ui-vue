@@ -1,6 +1,6 @@
 <html>
     <head>
-        <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"/>
         <script src="//unpkg.com/vue@latest/dist/vue.min.js"></script>
         <title>VUE 组件库</title>
     </head>
@@ -29,7 +29,8 @@
                        }
 
        app.$openWindow({title:"adsad",height:600, width: 700, com:content , left:20,top:40 ,modal:true});
-       app.$openWindow({title:"adsad",com:content,modal:true});
+       app.$openWindow({title:"adsad",com:content,modal:true,footer:false,header:false,height:200});
+       app.$openWindow({title:"adsad",com:content,modal:true,ok:()=>{alert("ok")},cancel:()=>(alert("cancel")),height:200});
         /**
         app.$notify({message:"测试消息1",level:1});
         app.$notify({message:"测试消息2",level:2});

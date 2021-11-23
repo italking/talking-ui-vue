@@ -52,13 +52,32 @@ var Window = {
          */
         cHeight:function(){
             if(this.win.height){
-                return this.win.height - 60 -70;
+                // 如果不显示 header 就不需要减去 header 的值
+                // 如果不显示 footer 就不需要减去 footer 的值
+                return this.win.height - (this.header? 60 : 0) - (this.footer? 70 : 0);
             }
             return "auto";
+        },
+        footer:function(){
+            if(typeof(this.win.footer) == "undefined" ||typeof(this.win.footer) != "boolean"){
+                return true;
+            }
+            return this.win.footer;
+        },
+        header:function(){
+            if(typeof(this.win.header) == "undefined" ||typeof(this.win.header) != "boolean"){
+                return true;
+            }
+            return this.win.header;
         }
     },
     methods:{
         ok:function(){
+            //调用组件函数
+            if(this.win.ok &&  typeof(this.win.ok) === "function"){
+                //参数为内部组件
+                this.win.ok.call(null,this.content);
+            }
             //调用组件的函数
             if(this.content["ok"]){
                this.content["ok"]();
@@ -66,6 +85,12 @@ var Window = {
             this.$emit('ok');
         },
         cancel:function(){
+            //调用组件函数
+            if(this.win.cancel &&  typeof(this.win.cancel) === "function"){
+                //参数为内部组件
+                this.win.cancel.call(null,this.content);
+            }
+
             //调用组件的函数
             if(this.content["cancel"]){
                 this.content["cancel"]();
@@ -84,7 +109,7 @@ var Window = {
     template:
         '<div class="modal-dialog" :style="[size,{zIndex:win.zindex}]" >\
             <div class="modal-content">\
-                <div class="modal-header">\
+                <div v-if="header" class="modal-header">\
                     <h5 class="modal-title">{{title}}</h5>\
                     <button @click="cancel" type="button" class="close" data-dismiss="modal" aria-label="Close">\
                         <span aria-hidden="true">&times;</span>\
@@ -93,7 +118,7 @@ var Window = {
                 <div class="modal-body" :style="{height:cHeight}" >\
                    <content-com @created="created" :com="win.com" :winProps="win.props"></content-com>\
                 </div>\
-                <div class="modal-footer">\
+                <div v-if="footer" class="modal-footer">\
                     <button @click="cancel" type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>\
                     <button @click="ok" type="button" class="btn btn-primary">确定</button>\
                 </div>\
@@ -114,7 +139,7 @@ var WindowContainer = {
         }
     },
     methods:{
-        //窗口变化计算modal的大小, 
+        //窗口变化计算modal的大小, 创建的时候不需要初始化，显示的时候应该初始化
         resetModal(){
             this.$set(this, "mHeight", document.body.scrollHeight);
             this.$set(this, "mWidth",document.body.scrollWidth);
@@ -154,7 +179,10 @@ var WindowContainer = {
            }
            //modal隐藏卸载事件 
            if(this.modalZindex()==-1){
-                window.removeEventListener('resize', this.resetModal);
+              window.removeEventListener('resize', this.resetModal);
+           }else{
+             //窗口关闭也可能影响到body大小，重置蒙版
+             this.resetModal();
            }
         }
     },
@@ -167,10 +195,6 @@ var WindowContainer = {
     },
     components:{
         "window":Window
-    },
-    created:function(){
-        this.mHeight = document.body.scrollHeight;
-        this.mWidth  = document.body.scrollWidth;
     },
     ////zindex loadding > message > model 2000 
     template:
@@ -191,6 +215,8 @@ var WindowContainer = {
  *  top:  位置信息
  *  com：组件
  *  props:传递参数
+ *  header：是否显示 header，默认为 true
+ *  footer：是否显示 footer，默认为 true
  *  ok：内部组件可以实现此方法，或者使用回调
  *  cancel：内部组件可以实现此方法，或者使用回调
  */
