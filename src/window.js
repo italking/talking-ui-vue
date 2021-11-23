@@ -36,7 +36,7 @@ var Window = {
       //默认窗口居中
       this.left = this.win.left? this.win.left : (document.body.clientWidth / 2 - width / 2) - (document.body.scrollWidth - document.body.clientWidth );
       //默认可视区 10%
-      this.top  = this.win.top? this.win.top : document.body.clientHeight /10 + document.documentElement.scrollTop;
+      this.top  = this.win.top? this.win.top : document.body.clientHeight /10 + document.body.scrollTop;
     },
     computed:{
         title:function(){
@@ -86,7 +86,8 @@ var Window = {
             <div class="modal-content">\
                 <div class="modal-header">\
                     <h5 class="modal-title">{{title}}</h5>\
-                    <button @click="cancel" type="button" class="btn-close" data-dismiss="modal" aria-label="Close">\
+                    <button @click="cancel" type="button" class="close" data-dismiss="modal" aria-label="Close">\
+                        <span aria-hidden="true">&times;</span>\
                     </button>\
                 </div>\
                 <div class="modal-body" :style="{height:cHeight}" >\
