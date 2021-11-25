@@ -2,11 +2,76 @@
     <head>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"/>
         <script src="//unpkg.com/vue@latest/dist/vue.min.js"></script>
-        <title>VUE 组件库</title>
+        <title>TalkingUI-VUE</title>
     </head>
     <body>
-        <div id="app">
-            <div id="ok"></div>
+        <div id="app" style="padding: 20px;" >
+            <div class="container-lg">
+                <div class="row form-group">
+                     <div class="col-sm">
+                        <div class="form-group">
+                            <button class="btn btn-primary" @click="openWindow" >弹出窗口</button> 弹出 window 窗口 
+                        </div>
+                        <textarea readonly class="form-control">
+                            this.$win.open({title:"adsad",height:600, width: 700, com:content});
+                        </textarea>
+                     </div>
+                </div>
+                <div class="row form-group" >
+                    <div class="col-sm">
+                        <div class="form-group">
+                            <button class="btn btn-primary" @click="openModalWindow" >模式窗口</button> 弹出 window 模式窗口 
+                        </div>
+                        <textarea readonly class="form-control">
+                            this.$win.open({title:"模式窗口",height:600, width: 700, com:content,modal:true});
+                        </textarea>
+                     </div>
+                </div>
+                <div class="row form-group" >
+                    <div class="col-sm">
+                        <div class="form-group">
+                            <button class="btn btn-primary" @click="message" >消息</button> 消息提醒 
+                        </div>
+                        <textarea readonly class="form-control">
+                            this.$notify({message:"测试消息1",level:1});
+                        </textarea>
+                     </div>
+                </div>
+                <div class="row form-group" >
+                    <div class="col-sm">
+                        <div class="form-group">
+                            <button class="btn btn-primary" @click="messageClose" >消息</button> 消息提醒,不可以关闭 
+                        </div>
+                        <textarea readonly class="form-control">
+                            this.$notify({message:"测试消息1",level:2,closeable:false});
+                        </textarea>
+                     </div>
+                </div>
+                <div class="row form-group" >
+                    <div class="col-sm">
+                        <div class="form-group">
+                            <button class="btn btn-primary" @click="messageCloseAuto" >消息</button> 消息提醒,自动定时关闭 
+                        </div>
+                        <textarea readonly class="form-control">
+                            this.$notify({message:"测试消息1",level:2,closeable:false});
+                        </textarea>
+                     </div>
+                </div>
+                <div class="row form-group" >
+                    <div class="col-sm">
+                        <div class="form-group">
+                            <button class="btn btn-primary" @click="loading" >Loading</button> Loading
+                        </div>
+                        <textarea readonly class="form-control" style="height: 150px;">
+                            var self = this;
+                            self.$loading.start();
+                            setTimeout(()=>{
+                                self.$loading.stop();
+                            }, 5000);
+                        </textarea>
+                     </div>
+                </div>
+            </div>
         </div>
     </body>
     <script type="module">
@@ -18,25 +83,50 @@
         Vue.use(LoadingPluin);
 
         var app = new Vue({
-             el: '#app'
+             el: '#app',
+             methods:{
+                 openWindow:function(){
+                    this.$win.open({title:"普通窗口",height:600, width: 700, com:content});
+                 },
+                 openModalWindow:function(){
+                    this.$win.open({title:"模式窗口",height:600, width: 700, com:content,modal:true});
+                 },
+                 message:function(){
+                    this.$notify({message:"测试消息1",level:1});
+                 },
+                 messageClose:function(){
+                    this.$notify({message:"测试消息3",level:3,closeable:false});
+                 },
+                 messageCloseAuto:function(){
+                    this.$notify({message:"测试消息3",level:3,time:2000});
+                 },
+                 loading:function(){
+                    var self = this;
+                    self.$loading.start();
+                    setTimeout(()=>{
+                        self.$loading.stop();
+                    }, 5000);
+                 }
+             }
         });
 
         var content = {
                         methods:{
                             ok:function(){alert("ok")}
                         },
-                        template:"<div>窗口</div>"
+                        template:"<div>这是一个窗口内容组件</div>"
                        }
 
-       app.$openWindow({title:"adsad",height:600, width: 700, com:content , left:20,top:40 ,modal:true});
-       app.$openWindow({title:"adsad",com:content,modal:true,footer:false,header:false,height:200});
-       app.$openWindow({title:"adsad",com:content,modal:true,ok:()=>{alert("ok")},cancel:()=>(alert("cancel")),height:200});
+       //app.$win.open({title:"adsad",height:600, width: 700, com:content , left:20,top:40 ,modal:true});
+       //app.$openWindow({title:"adsad",com:content,modal:true,footer:false,header:false,height:200});
+       //app.$openWindow({title:"adsad",com:content,modal:true,ok:()=>{alert("ok")},cancel:()=>(alert("cancel")),height:200});
         /**
         app.$notify({message:"测试消息1",level:1});
         app.$notify({message:"测试消息2",level:2});
         app.$notify({message:"测试消息3",level:3});
         app.$notify({message:"测试消息3",level:3,time:2000});
         app.$notify({message:"测试消息4",level:3,closeable:false});
+        
         app.$loading.start();
 
         setTimeout(()=>{

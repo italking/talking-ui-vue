@@ -29,7 +29,9 @@ var Alertify = {
     template:
         '<div :class="mainClass">\
            {{message.message}}\
-            <button v-if="closeable" type="button" class="close btn-close" @click="close" ></button>\
+            <button v-if="closeable" type="button" class="close" @click="close" >\
+                <span>&times;</span>\
+            </button>\
         </div>'
 }
 

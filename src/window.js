@@ -210,5 +210,12 @@ export var WindowPlugin = {
         Vue.prototype.$openWindow = function (window) {
             Vue.WindowContainerComp.open(window);
         }
+
+        Vue.prototype.$win = { 
+            //打开window
+            open: function (window) {
+               Vue.WindowContainerComp.open(window);
+            }
+        }
     }
 }
