@@ -130,7 +130,7 @@ var WindowContainer = {
     data: function () {
         return {
           windows:[],
-          mStyle:{position:"absolute",left:0,top:0,backgroundColor:"#9d9d9d",opacity: 0.5},
+          mStyle:{height: "100%",width:"100%",position:"fixed",left:0,top:0,backgroundColor:"#9d9d9d",opacity: 0.5},
           //起始zindex
           zindex:2000,
           //css 无法解决滚动条问题，使用脚本控制
@@ -139,11 +139,6 @@ var WindowContainer = {
         }
     },
     methods:{
-        //窗口变化计算modal的大小, 创建的时候不需要初始化，显示的时候应该初始化
-        resetModal(){
-            this.$set(this, "mHeight", document.body.scrollHeight);
-            this.$set(this, "mWidth",document.body.scrollWidth);
-        },
         modalZindex(){
             var index = -1;
             for(var i=0 ; i< this.windows.length ; i++){
@@ -158,9 +153,6 @@ var WindowContainer = {
             this.zindex += 2;
             win.zindex  = this.zindex; 
             this.windows = this.windows.concat(win);
-            if(this.modalZindex()>0){
-                window.addEventListener('resize', this.resetModal);
-            }
         },
         ok:function(win){
             this.delete(win);
@@ -177,29 +169,16 @@ var WindowContainer = {
                 break;
              }
            }
-           //modal隐藏卸载事件 
-           if(this.modalZindex()==-1){
-              window.removeEventListener('resize', this.resetModal);
-           }else{
-             //窗口关闭也可能影响到body大小，重置蒙版
-             this.resetModal();
-           }
         }
     },
-    //如果是自己的窗口导致 body 出现滚动条，渲染后需要重新计算高度
-    updated:function(){
-        this.resetModal();
-    },
-    destroyed() {
-        window.removeEventListener('resize', this.resetModal);
-    },
+    
     components:{
         "window":Window
     },
     ////zindex loadding > message > model 2000 
     template:
             '<div style="position:absolute;left:0px;top:0px">\
-                <div v-if="modalZindex() > 0" :style="[mStyle,{zIndex:modalZindex(),height:mHeight,width:mWidth}]"></div>\
+                <div v-if="modalZindex() > 0" :style="[mStyle,{zIndex:modalZindex()}]"></div>\
                 <template v-for="win in windows">\
                     <window @ok="ok(win)" @cancel="cancel(win)" :win="win"></window>\
                 <template>\
