@@ -80,7 +80,12 @@ var AlertifyContainer = {
             <template>\
          <div>'
 }
-
+/**
+ * level: 等级 3 成功 2 警告 1 危险
+ * message：消息内容
+ * time：自动关闭等待时间，毫秒
+ * closeable：是否支持手动关闭
+ */
 export var AlertifyPlugin = {
     install:function(Vue, options){
         var AlertifyContainerComp = Vue.extend(AlertifyContainer);
