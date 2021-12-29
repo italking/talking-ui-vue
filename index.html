@@ -71,6 +71,18 @@
                         </textarea>
                      </div>
                 </div>
+                <div class="row form-group" >
+                    <div class="col-sm">
+                        <div class="form-group">
+                            <button class="btn btn-primary" @click="confirm" >confirm</button>
+                        </div>
+                        <textarea readonly class="form-control" style="height: 150px;">
+                            confirm:function(confirm){
+                                self.$alertify.confirm({title:"确认",message:"消息确认！"});
+                             }
+                        </textarea>
+                     </div>
+                </div>
             </div>
         </div>
     </body>
@@ -106,6 +118,9 @@
                     setTimeout(()=>{
                         self.$loading.stop();
                     }, 5000);
+                 },
+                 confirm:function(confirm){
+                    this.$alertify.confirm({title:"确认",message:"消息确认！", ok:function(){alert(1)} ,cancel:function(){alert(2)}});
                  }
              }
         });
